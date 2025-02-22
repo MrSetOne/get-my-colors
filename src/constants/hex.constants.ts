@@ -1,0 +1,2 @@
+export const VALID_HEX_LENGHT_CASES = [3, 4, 6, 8];
+export const HEX_CHARACTERS = "0123456789ABCDEF";
