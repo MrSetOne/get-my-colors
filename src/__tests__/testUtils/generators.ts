@@ -1,8 +1,4 @@
-import {
-  ALL_CHARTS,
-  HEX_CHARACTERS,
-  VALID_HEX_LENGHT_CASES,
-} from "@/constants/hex.constants";
+import { ALL_CHARTS, VALID_HEX_LENGHT_CASES } from "@/constants/hex.constants";
 import { HexLength } from "@/types/colors.types";
 import { isValidHexColor } from "@/validators";
 
@@ -22,16 +18,19 @@ export const generateValidHex = (length: HexLength = 6): string => {
     .padStart(length, "0")}`;
 };
 
-export const generateInvalidHex = (length: number): string => {
+export const generateInvalidHex = (
+  length: number,
+  withOctothorpe: boolean = true
+): string => {
   const hexCode = Array.from(
     { length },
     () => ALL_CHARTS[Math.floor(Math.random() * ALL_CHARTS.length)]
   ).join("");
 
-  const hexValue = `#${hexCode}`;
+  const hexValue = `${withOctothorpe ? "#" : ""}${hexCode}`;
 
   if (isValidHexColor(hexValue)) {
-    return generateInvalidHex(length);
+    return generateInvalidHex(length, withOctothorpe);
   }
 
   return `${hexValue}`;
@@ -39,13 +38,14 @@ export const generateInvalidHex = (length: number): string => {
 
 export const generateHexValue = (
   valid: boolean,
-  length: HexLength | false = 6
+  length: HexLength | false = 6,
+  withOctothorpe: boolean = true
 ) => {
   if (valid) {
     const targetLength = length ? length : 6;
     return generateValidHex(targetLength);
   } else {
     const targetLength = length ? length : generateInvalidHexLength();
-    return generateInvalidHex(targetLength);
+    return generateInvalidHex(targetLength, withOctothorpe);
   }
 };

@@ -90,11 +90,26 @@ describe(generateInvalidHex.name, () => {
     }
   });
 
+  it("If withOctothorpe is false, should not start with # (X20)", () => {
+    for (let i = 0; i < 20; i++) {
+      const value = generateInvalidHex(6, false);
+      expect(value.startsWith("#")).toBe(false);
+    }
+  });
+
   it("Should have the correct length (X100)", () => {
     for (let i = 0; i < 100; i++) {
       const length = Math.floor(Math.random() * 200);
       const value = generateInvalidHex(length);
       expect(value.length).toBe(length + 1);
+    }
+  });
+
+  it("Should have the correct length withouth # (X100)", () => {
+    for (let i = 0; i < 100; i++) {
+      const length = Math.floor(Math.random() * 200);
+      const value = generateInvalidHex(length, false);
+      expect(value.length).toBe(length);
     }
   });
 
@@ -159,6 +174,20 @@ describe(generateInvalidHex.name, () => {
         const targetLength = VALID_HEX_LENGHT_CASES[targetIndex];
         const value = generateHexValue(true, targetLength);
         expect(value.length).toBe(targetLength + 1);
+      }
+    });
+
+    it("If is valid ignores the withOctothorpe value (X100)", () => {
+      for (let i = 0; i < 100; i++) {
+        const value = generateHexValue(true, 6, false);
+        expect(value.startsWith("#")).toBe(true);
+      }
+    });
+
+    it("If withOctothorpe is false, should not start with # (X100)", () => {
+      for (let i = 0; i < 100; i++) {
+        const value = generateHexValue(false, false, false);
+        expect(value.startsWith("#")).toBe(false);
       }
     });
   });
