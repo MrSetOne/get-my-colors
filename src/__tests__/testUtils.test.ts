@@ -78,7 +78,77 @@ suite("HEX Length Generators", () => {
 });
 
 suite("HEX Generators", () => {
-  describe(generateEntryPoint(generateValidHex), () => {
+  describe(generateEntryPoint(generateHexValue), () => {
+    it("should exist", () => {
+      const type = typeof generateHexValue;
+      expect(type).toBe("function");
+    });
+
+    it("Should return a valid hex value (X100)", () => {
+      for (let i = 0; i < 100; i++) {
+        const value = generateHexValue(true);
+        const isValiusHex = isValidHexColor(value);
+        expect(isValiusHex).toBe(true);
+      }
+    });
+
+    it("Should return a invalid hex value (X100)", () => {
+      for (let i = 0; i < 100; i++) {
+        const value = generateHexValue(false);
+        const isValiusHex = isValidHexColor(value);
+        expect(isValiusHex).toBe(false);
+      }
+    });
+
+    it("If select valid, should ignores false length (X100)", () => {
+      for (let i = 0; i < 100; i++) {
+        const value = generateHexValue(true, false);
+        const isValiusHex = isValidHexColor(value);
+        expect(isValiusHex).toBe(true);
+      }
+    });
+
+    it("Invalid hex should have invalid length (X100)", () => {
+      for (let i = 0; i < 100; i++) {
+        const value = generateHexValue(false, false);
+        expect(VALID_HEX_LENGHT_CASES).not.includes(value.length - 1);
+      }
+    });
+
+    it("If length is not provided, should return a value with 6 characters (X100)", () => {
+      for (let i = 0; i < 100; i++) {
+        const value = generateHexValue(true);
+        expect(value.length).toBe(7);
+      }
+    });
+
+    it("If length is provided, should return a value with the correct length (X100)", () => {
+      for (let i = 0; i < 100; i++) {
+        const targetIndex = Math.floor(
+          Math.random() * VALID_HEX_LENGHT_CASES.length
+        );
+        const targetLength = VALID_HEX_LENGHT_CASES[targetIndex];
+        const value = generateHexValue(true, targetLength);
+        expect(value.length).toBe(targetLength + 1);
+      }
+    });
+
+    it("If is valid ignores the withOctothorpe value (X100)", () => {
+      for (let i = 0; i < 100; i++) {
+        const value = generateHexValue(true, 6, false);
+        expect(value.startsWith("#")).toBe(true);
+      }
+    });
+
+    it("If withOctothorpe is false, should not start with # (X100)", () => {
+      for (let i = 0; i < 100; i++) {
+        const value = generateHexValue(false, false, false);
+        expect(value.startsWith("#")).toBe(false);
+      }
+    });
+  });
+
+  describe(generateValidHex.name, () => {
     it("should exist", () => {
       const type = typeof generateValidHex;
       expect(type).toBe("function");
@@ -160,76 +230,6 @@ suite("HEX Generators", () => {
         const value = generateInvalidHex(length);
         const isValiusHex = isValidHexColor(value);
         expect(isValiusHex).toBe(false);
-      }
-    });
-  });
-
-  describe(generateHexValue.name, () => {
-    it("should exist", () => {
-      const type = typeof generateHexValue;
-      expect(type).toBe("function");
-    });
-
-    it("Should return a valid hex value (X100)", () => {
-      for (let i = 0; i < 100; i++) {
-        const value = generateHexValue(true);
-        const isValiusHex = isValidHexColor(value);
-        expect(isValiusHex).toBe(true);
-      }
-    });
-
-    it("Should return a invalid hex value (X100)", () => {
-      for (let i = 0; i < 100; i++) {
-        const value = generateHexValue(false);
-        const isValiusHex = isValidHexColor(value);
-        expect(isValiusHex).toBe(false);
-      }
-    });
-
-    it("If select valid, should ignores false length (X100)", () => {
-      for (let i = 0; i < 100; i++) {
-        const value = generateHexValue(true, false);
-        const isValiusHex = isValidHexColor(value);
-        expect(isValiusHex).toBe(true);
-      }
-    });
-
-    it("Invalid hex should have invalid length (X100)", () => {
-      for (let i = 0; i < 100; i++) {
-        const value = generateHexValue(false, false);
-        expect(VALID_HEX_LENGHT_CASES).not.includes(value.length - 1);
-      }
-    });
-
-    it("If length is not provided, should return a value with 6 characters (X100)", () => {
-      for (let i = 0; i < 100; i++) {
-        const value = generateHexValue(true);
-        expect(value.length).toBe(7);
-      }
-    });
-
-    it("If length is provided, should return a value with the correct length (X100)", () => {
-      for (let i = 0; i < 100; i++) {
-        const targetIndex = Math.floor(
-          Math.random() * VALID_HEX_LENGHT_CASES.length
-        );
-        const targetLength = VALID_HEX_LENGHT_CASES[targetIndex];
-        const value = generateHexValue(true, targetLength);
-        expect(value.length).toBe(targetLength + 1);
-      }
-    });
-
-    it("If is valid ignores the withOctothorpe value (X100)", () => {
-      for (let i = 0; i < 100; i++) {
-        const value = generateHexValue(true, 6, false);
-        expect(value.startsWith("#")).toBe(true);
-      }
-    });
-
-    it("If withOctothorpe is false, should not start with # (X100)", () => {
-      for (let i = 0; i < 100; i++) {
-        const value = generateHexValue(false, false, false);
-        expect(value.startsWith("#")).toBe(false);
       }
     });
   });
