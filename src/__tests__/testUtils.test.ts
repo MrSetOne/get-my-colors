@@ -152,7 +152,7 @@ describe(generateInvalidHex.name, () => {
       }
     });
 
-    it("If select not valid, with false length, should return values with invalid lenght (X100)", () => {
+    it("Invalid hex should have invalid length (X100)", () => {
       for (let i = 0; i < 100; i++) {
         const value = generateHexValue(false, false);
         expect(VALID_HEX_LENGHT_CASES).not.includes(value.length - 1);
