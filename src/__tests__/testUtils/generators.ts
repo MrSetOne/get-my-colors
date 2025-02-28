@@ -2,13 +2,15 @@ import { ALL_CHARTS, VALID_HEX_LENGHT_CASES } from "@/constants/hex.constants";
 import { HexLength } from "@/types/colors.types";
 import { isValidHexColor } from "@/validators";
 
-export const generateHexLength = (valid: boolean): number => {
+export function generateHexLength(valid: true): HexLength;
+export function generateHexLength(valid: false): number;
+export function generateHexLength(valid: boolean): number | HexLength {
   if (valid) {
     return generateValidHexLength();
   } else {
     return generateInvalidHexLength();
   }
-};
+}
 
 export const generateInvalidHexLength = (): number => {
   const length = Math.floor(Math.random() * 20) + 1;
@@ -20,7 +22,7 @@ export const generateInvalidHexLength = (): number => {
   return length;
 };
 
-export const generateValidHexLength = (): number => {
+export const generateValidHexLength = (): HexLength => {
   const index = Math.floor(Math.random() * VALID_HEX_LENGHT_CASES.length);
   return VALID_HEX_LENGHT_CASES[index];
 };
