@@ -1,5 +1,3 @@
-import { REGEX_HEX_VALUE } from "@/constants/regexs.constants";
+import { isValidHexColor } from "@/validators/hexValidator";
 
-export const isValidHexColor = (color: string): boolean => {
-  return REGEX_HEX_VALUE.test(color);
-};
+export { isValidHexColor };

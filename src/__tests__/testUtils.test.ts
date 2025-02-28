@@ -3,11 +3,11 @@ import {
   generateValidHexValues,
   getRandomHexCharacter,
 } from "@/__tests__/testUtils/generators";
-import { VALID_HEX_LENGHT_CASES } from "@/constants/hex.constants";
 import {
   REGEX_HEX_CHARACTER,
   REGEX_HEX_VALUE,
 } from "@/constants/regexs.constants";
+import { isAValidHexLength } from "@/utils/typeGuards";
 import { describe, expect, it } from "vitest";
 
 describe(generateInvalidHexValues.name, () => {
@@ -33,7 +33,7 @@ describe(generateInvalidHexValues.name, () => {
 
     values.forEach((value) => {
       const length = value.length - 1;
-      expect(VALID_HEX_LENGHT_CASES.includes(length)).toBe(false);
+      expect(isAValidHexLength(length)).toBe(false);
     });
   });
 });
@@ -69,7 +69,7 @@ describe(generateValidHexValues.name, () => {
 
     values.forEach((value) => {
       const length = value.length - 1;
-      expect(VALID_HEX_LENGHT_CASES.includes(length)).toBe(true);
+      expect(isAValidHexLength(length)).toBe(true);
     });
   });
 
