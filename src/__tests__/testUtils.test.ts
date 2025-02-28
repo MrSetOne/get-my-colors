@@ -124,12 +124,9 @@ suite("HEX Generators", () => {
 
     it("If length is provided, should return a value with the correct length (X100)", () => {
       for (let i = 0; i < 100; i++) {
-        const targetIndex = Math.floor(
-          Math.random() * VALID_HEX_LENGHT_CASES.length
-        );
-        const targetLength = VALID_HEX_LENGHT_CASES[targetIndex];
-        const value = generateHexValue(true, targetLength);
-        expect(value.length).toBe(targetLength + 1);
+        const length = generateHexLength(true);
+        const value = generateHexValue(true, length);
+        expect(value.length).toBe(length + 1);
       }
     });
 
@@ -163,12 +160,9 @@ suite("HEX Generators", () => {
 
     it("Should values has the correct length (X20)", () => {
       for (let i = 0; i < 20; i++) {
-        const targetIndex = Math.floor(
-          Math.random() * VALID_HEX_LENGHT_CASES.length
-        );
-        const targetLength = VALID_HEX_LENGHT_CASES[targetIndex];
-        const value = generateValidHex(targetLength);
-        expect(value.length).toBe(targetLength + 1);
+        const length = generateHexLength(true);
+        const value = generateValidHex(length);
+        expect(value.length).toBe(length + 1);
       }
     });
 
