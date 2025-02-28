@@ -4,51 +4,16 @@ import {
   VALID_HEX_LENGHT_CASES,
 } from "@/constants/hex.constants";
 import { HexLength } from "@/types/colors.types";
-import { isAValidHexLength } from "@/utils/typeGuards";
 import { isValidHexColor } from "@/validators";
 
-export const getRandomHexCharacter = () => {
-  return HEX_CHARACTERS[Math.floor(Math.random() * HEX_CHARACTERS.length)];
-};
+export const generateInvalidHexLength = (): number => {
+  const length = Math.floor(Math.random() * 20) + 1;
 
-// TODO: >>> HACER UN FACTORY DE ESTO
-
-// TODO: >>> Add a config interface, to allow the user to pass a custom valid hex, hex length, non-hex characters, etc.
-export const generateInvalidHexValues = (length = 50): string[] => {
-  const values = [];
-  for (let i = 0; i < length; i++) {
-    const len = Math.floor(Math.random() * 20) + 1;
-    if (!isAValidHexLength(len)) {
-      let value = "#";
-      for (let j = 0; j < len; j++) {
-        value += getRandomHexCharacter();
-      }
-      values.push(value);
-    } else {
-      i--;
-    }
+  if ((VALID_HEX_LENGHT_CASES as number[]).includes(length)) {
+    return generateInvalidHexLength();
   }
-  return values;
-};
 
-export const generateValidHexValues = (length = 50): string[] => {
-  const values = [];
-  for (let i = 0; i < length; i++) {
-    const len =
-      VALID_HEX_LENGHT_CASES[
-        Math.floor(Math.random() * VALID_HEX_LENGHT_CASES.length)
-      ];
-    let value = "#";
-    for (let j = 0; j < len; j++) {
-      value += getRandomHexCharacter();
-    }
-    values.push(value);
-  }
-  return values;
-};
-
-export const generateHexValue = (valid: boolean, length: HexLength = 6) => {
-  return valid ? generateValidHex(length) : generateInvalidHex(length);
+  return length;
 };
 
 export const generateValidHex = (length: HexLength = 6): string => {
@@ -57,7 +22,7 @@ export const generateValidHex = (length: HexLength = 6): string => {
     .padStart(length, "0")}`;
 };
 
-export const generateInvalidHex = (length: HexLength = 6): string => {
+export const generateInvalidHex = (length: number): string => {
   const hexCode = Array.from(
     { length },
     () => ALL_CHARTS[Math.floor(Math.random() * ALL_CHARTS.length)]
@@ -69,5 +34,18 @@ export const generateInvalidHex = (length: HexLength = 6): string => {
     return generateInvalidHex(length);
   }
 
-  return `#${hexValue}`;
+  return `${hexValue}`;
+};
+
+export const generateHexValue = (
+  valid: boolean,
+  length: HexLength | false = 6
+) => {
+  if (valid) {
+    const targetLength = length ? length : 6;
+    return generateValidHex(targetLength);
+  } else {
+    const targetLength = length ? length : generateInvalidHexLength();
+    return generateInvalidHex(targetLength);
+  }
 };

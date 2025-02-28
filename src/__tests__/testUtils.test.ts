@@ -1,90 +1,165 @@
 import {
-  generateInvalidHexValues,
-  generateValidHexValues,
-  getRandomHexCharacter,
+  generateHexValue,
+  generateInvalidHex,
+  generateInvalidHexLength,
+  generateValidHex,
 } from "@/__tests__/testUtils/generators";
-import {
-  REGEX_HEX_CHARACTER,
-  REGEX_HEX_VALUE,
-} from "@/constants/regexs.constants";
-import { isAValidHexLength } from "@/utils/typeGuards";
+import { VALID_HEX_LENGHT_CASES } from "@/constants/hex.constants";
+import { isValidHexColor } from "@/validators";
 import { describe, expect, it } from "vitest";
 
-describe(generateInvalidHexValues.name, () => {
+describe(generateInvalidHexLength.name, () => {
   it("should exist", () => {
-    const type = typeof generateInvalidHexValues;
+    const type = typeof generateInvalidHexLength;
     expect(type).toBe("function");
   });
 
-  it("Return the correct amount of values", () => {
-    const values = generateInvalidHexValues(50);
-    expect(values.length).toBe(50);
+  it("Should return a invalid hex length (X100)", () => {
+    for (let i = 0; i < 100; i++) {
+      const length = generateInvalidHexLength();
+
+      expect(VALID_HEX_LENGHT_CASES).not.includes(length);
+    }
   });
 
-  it("All values should start with #", () => {
-    const values = generateInvalidHexValues(50);
-    values.forEach((value) => {
-      expect(value.startsWith("#")).toBe(true);
-    });
+  it("All values should be inferior to 21 (X100)", () => {
+    for (let i = 0; i < 100; i++) {
+      const length = generateInvalidHexLength();
+      expect(length).toBeLessThan(21);
+    }
   });
 
-  it("All values should have invalid length (x50)", () => {
-    const values = generateInvalidHexValues(50);
-
-    values.forEach((value) => {
-      const length = value.length - 1;
-      expect(isAValidHexLength(length)).toBe(false);
-    });
-  });
-});
-
-describe(getRandomHexCharacter.name, () => {
-  it("should exist", () => {
-    const type = typeof getRandomHexCharacter;
-    expect(type).toBe("function");
-  });
-
-  it("Should return a valid hex character (X20)", () => {
-    for (let i = 0; i < 20; i++) {
-      const character = getRandomHexCharacter();
-      expect(character.length).toBe(1);
-      expect(character).toMatch(REGEX_HEX_CHARACTER);
+  it("All values should be superior to 0 (X100)", () => {
+    for (let i = 0; i < 100; i++) {
+      const length = generateInvalidHexLength();
+      expect(length).toBeGreaterThan(0);
     }
   });
 });
 
-describe(generateValidHexValues.name, () => {
+describe(generateValidHex.name, () => {
   it("should exist", () => {
-    const type = typeof generateValidHexValues;
+    const type = typeof generateValidHex;
     expect(type).toBe("function");
   });
 
-  it("Return the correct amount of values", () => {
-    const values = generateValidHexValues(50);
-    expect(values.length).toBe(50);
-  });
-
-  it("The values should have a valid length (x50)", () => {
-    const values = generateValidHexValues(50);
-
-    values.forEach((value) => {
-      const length = value.length - 1;
-      expect(isAValidHexLength(length)).toBe(true);
-    });
-  });
-
-  it("All values should start with #", () => {
-    const values = generateValidHexValues(50);
-    values.forEach((value) => {
+  it("Should values start with # (X20)", () => {
+    for (let i = 0; i < 20; i++) {
+      const value = generateValidHex();
       expect(value.startsWith("#")).toBe(true);
-    });
+    }
   });
 
-  it("All values should have valid characters (x50)", () => {
-    const values = generateValidHexValues(50);
+  it("Should values has the correct length (X20)", () => {
+    for (let i = 0; i < 20; i++) {
+      const targetIndex = Math.floor(
+        Math.random() * VALID_HEX_LENGHT_CASES.length
+      );
+      const targetLength = VALID_HEX_LENGHT_CASES[targetIndex];
+      const value = generateValidHex(targetLength);
+      expect(value.length).toBe(targetLength + 1);
+    }
+  });
 
-    values.forEach((value) => {
-      expect(value).toMatch(REGEX_HEX_VALUE);
+  it("If no length is provided, the value should have 6 characters (X20)", () => {
+    for (let i = 0; i < 20; i++) {
+      const value = generateValidHex();
+      expect(value.length).toBe(7);
+    }
+  });
+
+  it("The return value is valid hex value (X100)", () => {
+    for (let i = 0; i < 100; i++) {
+      const value = generateValidHex();
+      const isValiusHex = isValidHexColor(value);
+      expect(isValiusHex).toBe(true);
+    }
+  });
+});
+
+describe(generateInvalidHex.name, () => {
+  it("should exist", () => {
+    const type = typeof generateInvalidHex;
+    expect(type).toBe("function");
+  });
+
+  it("Should values start with # (X20)", () => {
+    for (let i = 0; i < 20; i++) {
+      const value = generateInvalidHex(6);
+      expect(value.startsWith("#")).toBe(true);
+    }
+  });
+
+  it("Should have the correct length (X100)", () => {
+    for (let i = 0; i < 100; i++) {
+      const length = Math.floor(Math.random() * 200);
+      const value = generateInvalidHex(length);
+      expect(value.length).toBe(length + 1);
+    }
+  });
+
+  it("All values should have invalid characters (X100)", () => {
+    for (let i = 0; i < 100; i++) {
+      const length = Math.floor(Math.random() * 200);
+      const value = generateInvalidHex(length);
+      const isValiusHex = isValidHexColor(value);
+      expect(isValiusHex).toBe(false);
+    }
+  });
+
+  describe(generateHexValue.name, () => {
+    it("should exist", () => {
+      const type = typeof generateHexValue;
+      expect(type).toBe("function");
+    });
+
+    it("Should return a valid hex value (X100)", () => {
+      for (let i = 0; i < 100; i++) {
+        const value = generateHexValue(true);
+        const isValiusHex = isValidHexColor(value);
+        expect(isValiusHex).toBe(true);
+      }
+    });
+
+    it("Should return a invalid hex value (X100)", () => {
+      for (let i = 0; i < 100; i++) {
+        const value = generateHexValue(false);
+        const isValiusHex = isValidHexColor(value);
+        expect(isValiusHex).toBe(false);
+      }
+    });
+
+    it("If select valid, should ignores false length (X100)", () => {
+      for (let i = 0; i < 100; i++) {
+        const value = generateHexValue(true, false);
+        const isValiusHex = isValidHexColor(value);
+        expect(isValiusHex).toBe(true);
+      }
+    });
+
+    it("If select not valid, with false length, should return values with invalid lenght (X100)", () => {
+      for (let i = 0; i < 100; i++) {
+        const value = generateHexValue(false, false);
+        expect(VALID_HEX_LENGHT_CASES).not.includes(value.length - 1);
+      }
+    });
+
+    it("If length is not provided, should return a value with 6 characters (X100)", () => {
+      for (let i = 0; i < 100; i++) {
+        const value = generateHexValue(true);
+        expect(value.length).toBe(7);
+      }
+    });
+
+    it("If length is provided, should return a value with the correct length (X100)", () => {
+      for (let i = 0; i < 100; i++) {
+        const targetIndex = Math.floor(
+          Math.random() * VALID_HEX_LENGHT_CASES.length
+        );
+        const targetLength = VALID_HEX_LENGHT_CASES[targetIndex];
+        const value = generateHexValue(true, targetLength);
+        expect(value.length).toBe(targetLength + 1);
+      }
     });
   });
 });
