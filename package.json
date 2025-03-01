@@ -10,14 +10,21 @@
     "test": "vitest",
     "test:one-run": "vitest --no-watch",
     "prepare": "husky",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "commit": "commit",
+    "prettier": "prettier --config .prettierrc './**/*.{js,ts}' --write"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.7.1",
+    "@commitlint/config-conventional": "^19.7.1",
+    "@commitlint/prompt-cli": "^19.7.1",
+    "@commitlint/types": "^19.5.0",
     "@typescript-eslint/eslint-plugin": "^8.24.1",
     "@typescript-eslint/parser": "^8.24.1",
     "eslint": "^9.21.0",
     "husky": "^9.1.7",
     "lint-staged": "^15.4.3",
+    "prettier": "^3.5.2",
     "vitest": "^3.0.6"
   },
   "dependencies": {
@@ -27,8 +34,9 @@
     "tsup": "^8.3.6"
   },
   "lint-staged": {
-    "**/*.{js,jsx,ts,tsx}": [
-      "npm run lint"
+    "**/*.{ts}": [
+      "npm run lint",
+      "npm run prettier"
     ]
   }
 }

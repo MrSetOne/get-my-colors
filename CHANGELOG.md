@@ -1,0 +1,18 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+
+### Added
+
+- Project initialization.
+- Added eslint.
+- Added vitest for unit testing.
+- Added husky for pre-commit hooks.
+- Added lint-staged for linting on pre-commit.
+- Added functionality to validate if a string is a hex color.
+- Added prettier for code formatting.

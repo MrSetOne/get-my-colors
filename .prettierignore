@@ -1,0 +1,10 @@
+**/.git
+**/.svn
+**/.hg
+**/node_modules
+**/dist
+**/.husky
+**/prettier.config.ts
+.gitignore
+.prettierignore
+*.yaml

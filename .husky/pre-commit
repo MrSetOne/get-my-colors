@@ -1,2 +1,6 @@
+
+echo -e "[HUSKY] >> Running lint-staged..."
 pnpm lint-staged
+
+echo -e "[HUSKY] >> Running vitest..."
 pnpm test:one-run

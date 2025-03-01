@@ -1,0 +1,4 @@
+echo -e "[HUSKY] >> Running commitlint..."
+pnpm commitlint --edit "$1"
+echo -e "[HUSKY] >> ¡ALL OK!"
+echo -e "[HUSKY] >> THANKS FOR KEEPING THE CODE CLEAN! 🧹🧼🧽🚿🛁🚽🚰🚮🧻🧺🧴🧽🧼🧹"
