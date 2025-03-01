@@ -15,3 +15,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added husky for pre-commit hooks.
 - Added lint-staged for linting on pre-commit.
 - Added functionality to validate if a string is a hex color.
+- Added prettier for code formatting.
