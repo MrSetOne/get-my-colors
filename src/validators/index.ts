@@ -1,3 +1,3 @@
-import { isValidHexColor } from "@/validators/hexValidator";
+import { isValidHexColor } from '@/validators/hexValidator';
 
 export { isValidHexColor };
